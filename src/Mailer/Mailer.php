@@ -44,7 +44,7 @@ class Mailer extends MailerBase implements MailerInterface
         $mailable = $mailable->build($parameters);
 
         $message = $this->mailManager->mail(
-            'mailable',
+            'wmmailable',
             $id,
             null,
             null,
