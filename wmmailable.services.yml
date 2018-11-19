@@ -8,7 +8,6 @@ services:
         arguments:
             - '@language_manager'
             - '@renderer'
-            - '@wmcontroller.viewbuilder'
 
     wmmailable.mailer:
         parent: wmmailable.mailer.direct

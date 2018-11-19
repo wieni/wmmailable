@@ -18,3 +18,44 @@ function wmmailable_mail($key, &$message, $params)
     \Drupal::getContainer()->get('wmmailable.message_builder')
         ->populateMessage($message, $params['mailable']);
 }
+
+/**
+ * Implements hook_theme().
+ */
+function wmmailable_theme()
+{
+    $manager = \Drupal::getContainer()->get('plugin.manager.mailable');
+    $themeName = \Drupal::config('system.theme')->get('default');
+    $path = DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . 'mail';
+    $definitions = $manager->getDefinitions();
+    $data = [];
+
+    foreach ($definitions as $id => $definition) {
+        $dir = drupal_get_path('theme', $themeName) . $path;
+        $template = str_replace('_', '-', $id);
+
+        $data["wmmailable.$id"] = [
+            'variables' => [
+                '_data' => [],
+            ],
+            'path' => $dir,
+            'template' => $template,
+            'preprocess functions' => [
+                'wmmailable_theme_set_variables',
+            ],
+        ];
+    }
+
+    return $data;
+}
+
+function wmmailable_theme_set_variables(&$variables)
+{
+    // Skip if no data is set or not set as an array
+    if (!isset($variables['_data']) || !is_array($variables['_data'])) {
+        return;
+    }
+
+    $variables = array_merge($variables, $variables['_data']);
+    unset($variables['_data']);
+}

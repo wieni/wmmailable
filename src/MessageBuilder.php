@@ -4,7 +4,6 @@ namespace Drupal\wmmailable;
 
 use Drupal\Core\Language\LanguageManagerInterface;
 use Drupal\Core\Render\RendererInterface;
-use Drupal\wmcontroller\ViewBuilder\ViewBuilder;
 
 class MessageBuilder
 {
@@ -12,17 +11,13 @@ class MessageBuilder
     protected $languageManager;
     /** @var RendererInterface */
     protected $renderer;
-    /** @var ViewBuilder */
-    protected $viewBuilder;
 
     public function __construct(
         LanguageManagerInterface $languageManager,
-        RendererInterface $renderer,
-        ViewBuilder $viewBuilder
+        RendererInterface $renderer
     ) {
         $this->languageManager = $languageManager;
         $this->renderer = $renderer;
-        $this->viewBuilder = $viewBuilder;
     }
 
     public function populateMessage(array &$message, MailableInterface $mailable)
@@ -36,13 +31,10 @@ class MessageBuilder
 
     protected function setBody(array &$message, MailableInterface $mailable)
     {
-        $template = str_replace('_', '-', $mailable->getKey());
-        $folder = 'mail';
-
-        $render = $this->viewBuilder
-            ->setTemplate("{$folder}.{$template}")
-            ->setData($mailable->getParameters())
-            ->toRenderArray();
+        $render = [
+            '#theme' => "wmmailable.{$mailable->getKey()}",
+            '#_data' => $mailable->getParameters(),
+        ];
 
         $message['body'][] = $this->renderer->renderPlain($render);
     }
