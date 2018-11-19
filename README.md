@@ -17,10 +17,12 @@ wmmailable
 - Not intuitive, logic is scattered across multiple files, tends to get messy
 
 ## How does it work?
+
 ### Building mails
 - Mails are annotated plugins
 - Each class represents one mail
 - Dependency injection is possible by implementing the `ContainerFactoryPluginInterface` ([tutorial](https://chromatichq.com/blog/dependency-injection-drupal-8-plugins))
+
 ```php
 <?php
 
@@ -33,8 +35,9 @@ namespace Drupal\wmcustom\Mail;
  */
 class ContactFormSubmission extends MailableBase
 {
-	public function build(array $parameters): MailableInterface;
+    public function build(array $parameters): MailableInterface;
 }
+
 ```
 ### Sending mails
 - Mails are sent through the `Mailer` service
@@ -77,13 +80,11 @@ class ContactForm extends FormBase
 }
 ```
 
-- The mail template should be placed in `<active theme>/mail/<mailable id with dashes instead of underscores`
-
-
----
+- The mail template should be placed in `<active theme>/mail/<mailable id with dashes instead of underscores>`
 
 ### Hooks
 - One hook is provided, `hook_mailable_alter`. This hook is called after the `send` method is called on the Mailable, but before the mail is sent.
+
 ```php
 <?php
 
@@ -92,4 +93,3 @@ function wmcustom_mailable_alter(MailableInterface $mail)
     $mail->setHeader('X-SES-SOURCE-ARN', '<...>');
 }
 ```
-
