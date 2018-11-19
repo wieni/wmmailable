@@ -1,0 +1,6 @@
+name: wmmailable
+type: module
+description: Mailables!
+core: 8.x
+package: Wieni
+dependencies: {  }

@@ -1,0 +1,20 @@
+<?php
+
+use Drupal\wmmailable\MailableInterface;
+
+/**
+ * Implements hook_mail().
+ * Sets default values for the mail.
+ */
+function wmmailable_mail($key, &$message, $params)
+{
+    if (!$params['mailable'] instanceof MailableInterface) {
+        throw new \Exception('Mailable emails should be composed through the wmmailable.mailer service.');
+    }
+
+    \Drupal::getContainer()->get('module_handler')
+        ->alter(['wmmailable', 'mailable_' . $key], $params['mailable']);
+
+    \Drupal::getContainer()->get('wmmailable.message_builder')
+        ->populateMessage($message, $params['mailable']);
+}

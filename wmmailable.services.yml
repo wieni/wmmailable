@@ -1,0 +1,26 @@
+services:
+    plugin.manager.mailable:
+        class: Drupal\wmmailable\MailableManager
+        parent: default_plugin_manager
+
+    wmmailable.message_builder:
+        class: Drupal\wmmailable\MessageBuilder
+        arguments:
+            - '@language_manager'
+            - '@renderer'
+            - '@wmcontroller.viewbuilder'
+
+    wmmailable.mailer:
+        parent: wmmailable.mailer.direct
+
+    wmmailable.mailer.direct:
+        class: Drupal\wmmailable\Mailer\Mailer
+        arguments:
+            - '@plugin.manager.mail'
+            - '@plugin.manager.mailable'
+        shared: false
+
+    wmmailable.mailer.queued:
+        class: Drupal\wmmailable\Mailer\QueuedMailer
+        arguments:
+            - '@queue'
