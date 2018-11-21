@@ -4,7 +4,6 @@ namespace Drupal\wmmailable\Plugin\QueueWorker;
 
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Queue\QueueWorkerBase;
-use Drupal\Core\Queue\SuspendQueueException;
 use Drupal\wmmailable\MailableInterface;
 use Drupal\wmmailable\Mailer\MailerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;

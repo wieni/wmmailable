@@ -12,6 +12,8 @@ function wmmailable_mail($key, &$message, $params)
         throw new \Exception('Mailable emails should be composed through the wmmailable.mailer service.');
     }
 
+    $message['mailable'] = $params['mailable'];
+
     \Drupal::getContainer()->get('module_handler')
         ->alter(['wmmailable', 'wmmailable_' . $key], $params['mailable']);
 
@@ -45,6 +47,14 @@ function wmmailable_theme()
             ],
         ];
     }
+
+    $data['wmmailable'] = [
+        'variables' => [
+            'body' => [],
+        ],
+        'path' => drupal_get_path('module', 'wmmailable') . '/templates',
+        'template' => 'mailable',
+    ];
 
     return $data;
 }

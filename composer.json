@@ -16,6 +16,10 @@
     }
   ],
   "require": {
-    "drupal/core": "^8"
+    "drupal/core": "^8",
+    "tijsverkoyen/css-to-inline-styles": "^2.2"
+  },
+  "suggest": {
+    "hampe/inky": "to use the Foundation for Emails renderer"
   }
 }
