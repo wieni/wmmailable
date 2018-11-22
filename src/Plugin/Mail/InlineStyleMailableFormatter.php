@@ -45,7 +45,7 @@ class InlineStyleMailableFormatter extends PlainMailableFormatter
     {
         $message = parent::format($message);
         /** @var MailableInterface $mailable */
-        $mailable = $message['mailable'];
+        $mailable = $message['mailable'] ?? null;
 
         $css = null;
         if ($mailable instanceof MailableInterface) {
