@@ -13,6 +13,8 @@ abstract class MailableBase extends PluginBase implements MailableInterface
 
     /** @var string */
     protected $subject = '';
+    /** @var string */
+    protected $from;
     /** @var array */
     protected $recepients = [];
     /** @var array */
@@ -40,6 +42,17 @@ abstract class MailableBase extends PluginBase implements MailableInterface
     public function setSubject(string $subject): MailableInterface
     {
         $this->subject = $subject;
+        return $this;
+    }
+
+    public function getFrom(): string
+    {
+        return $this->from;
+    }
+
+    public function setFrom(string $from): MailableInterface
+    {
+        $this->from = $from;
         return $this;
     }
 

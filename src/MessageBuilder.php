@@ -24,6 +24,7 @@ class MessageBuilder
     {
         $this->setBody($message, $mailable);
         $this->setSubject($message, $mailable);
+        $this->setFrom($message, $mailable);
         $this->setLangcode($message, $mailable);
         $this->setRecepients($message, $mailable);
         $this->setHeaders($message, $mailable);
@@ -42,6 +43,13 @@ class MessageBuilder
     protected function setSubject(array &$message, MailableInterface $mailable)
     {
         $message['subject'] = $mailable->getSubject();
+    }
+
+    protected function setFrom(array &$message, MailableInterface $mailable)
+    {
+        if ($from = $mailable->getFrom()) {
+            $message['from'] = $from;
+        }
     }
 
     protected function setLangcode(array &$message, MailableInterface $mailable)
