@@ -7,6 +7,7 @@ use Drupal\Core\Mail\MailManagerInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Render\Markup;
 use Drupal\Core\Render\RendererInterface;
+use Drupal\Core\Site\Settings;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -39,8 +40,9 @@ class PlainMailableFormatter implements MailInterface, ContainerFactoryPluginInt
     public function format(array $message)
     {
         if (is_array($message['body'])) {
+            $lineEndings = Settings::get('mail_line_endings', PHP_EOL);
             $message['body'] = Markup::create(
-                implode(PHP_EOL, $message['body'])
+                implode($lineEndings, $message['body'])
             );
         }
 
