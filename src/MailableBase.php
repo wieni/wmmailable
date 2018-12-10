@@ -14,7 +14,7 @@ abstract class MailableBase extends PluginBase implements MailableInterface
     /** @var string */
     protected $subject = '';
     /** @var string */
-    protected $from;
+    protected $from = '';
     /** @var array */
     protected $recepients = [];
     /** @var array */
