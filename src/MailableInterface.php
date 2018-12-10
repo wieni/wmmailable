@@ -25,10 +25,6 @@ interface MailableInterface
 
     public function setFrom(string $from): MailableInterface;
 
-    public function getTemplate(): string;
-
-    public function setTemplate(string $template): MailableInterface;
-
     public function getLangcode(): string;
 
     public function setLangcode(string $langcode): MailableInterface;

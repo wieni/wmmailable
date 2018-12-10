@@ -7,8 +7,6 @@ use Drupal\Core\Plugin\PluginBase;
 abstract class MailableBase extends PluginBase implements MailableInterface
 {
     /** @var string */
-    protected $template = '';
-    /** @var string */
     protected $langcode = '';
 
     /** @var string */
@@ -53,17 +51,6 @@ abstract class MailableBase extends PluginBase implements MailableInterface
     public function setFrom(string $from): MailableInterface
     {
         $this->from = $from;
-        return $this;
-    }
-
-    public function getTemplate(): string
-    {
-        return $this->template;
-    }
-
-    public function setTemplate(string $template): MailableInterface
-    {
-        $this->template = $template;
         return $this;
     }
 
