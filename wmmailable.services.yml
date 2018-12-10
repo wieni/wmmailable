@@ -17,6 +17,7 @@ services:
         arguments:
             - '@plugin.manager.mail'
             - '@plugin.manager.mailable'
+            - '@logger.factory'
         shared: false
 
     wmmailable.mailer.queued:
