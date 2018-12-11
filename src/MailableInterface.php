@@ -17,6 +17,8 @@ interface MailableInterface
 
     public function getKey(): string;
 
+    public function getTemplate(): string;
+
     public function getSubject(): string;
 
     public function setSubject(string $subject): MailableInterface;

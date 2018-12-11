@@ -32,6 +32,11 @@ abstract class MailableBase extends PluginBase implements MailableInterface
         return $this->pluginDefinition['id'];
     }
 
+    public function getTemplate(): string
+    {
+        return $this->pluginDefinition['template'] ?? '';
+    }
+
     public function getSubject(): string
     {
         return $this->subject;

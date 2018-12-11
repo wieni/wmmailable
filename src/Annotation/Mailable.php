@@ -9,4 +9,6 @@ use Drupal\Component\Annotation\Plugin;
  */
 class Mailable extends Plugin
 {
+    /** @var string */
+    protected $template;
 }

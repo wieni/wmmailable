@@ -30,7 +30,8 @@ namespace Drupal\wmcustom\Mail;
 
 /**
  * @Mailable(
- *     id = "contact_form_submission"
+ *     id = "contact_form_submission",
+*      template = "mail.contact-submission"
  * )
  */
 class ContactFormSubmission extends MailableBase
@@ -80,7 +81,9 @@ class ContactForm extends FormBase
 }
 ```
 
-- The mail template should be placed in `<active theme>/mail/<mailable id with dashes instead of underscores>`
+- The mail template should be placed in the default theme:
+    - the default location is in the `mail` subfolder, with the id with dashes instead of underscores as template name.
+    - a custom location can be set in the annotation, in the form of a path relative to the default theme, with filename but without extension. Dots can be used as directory seperator.
 
 ### Hooks
 - One hook is provided, `hook_mailable_alter`. This hook is called after the `send` method is called on the Mailable, but before the mail is sent.

@@ -28,20 +28,24 @@ function wmmailable_theme()
 {
     $manager = \Drupal::getContainer()->get('plugin.manager.mailable');
     $themeName = \Drupal::config('system.theme')->get('default');
-    $path = DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . 'mail';
-    $definitions = $manager->getDefinitions();
+    $dir = drupal_get_path('theme', $themeName) . DIRECTORY_SEPARATOR . 'templates';
     $data = [];
 
-    foreach ($definitions as $id => $definition) {
-        $dir = drupal_get_path('theme', $themeName) . $path;
-        $template = str_replace('_', '-', $id);
+    foreach ($manager->getDefinitions() as $id => $definition) {
+        if (!empty($definition['template'])) {
+            $template = str_replace('.', DIRECTORY_SEPARATOR, $definition['template']);
+        } else {
+            $template = 'mail' . DIRECTORY_SEPARATOR . str_replace('_', '-', $id);
+        }
+
+        $path = $dir . DIRECTORY_SEPARATOR . $template;
 
         $data["wmmailable.$id"] = [
             'variables' => [
                 '_data' => [],
             ],
-            'path' => $dir,
-            'template' => $template,
+            'path' => dirname($path),
+            'template' => basename($path),
             'preprocess functions' => [
                 'wmmailable_theme_set_variables',
             ],
