@@ -42,7 +42,9 @@ class MessageBuilder
 
     protected function setSubject(array &$message, MailableInterface $mailable)
     {
-        $message['subject'] = $mailable->getSubject();
+        if ($subject = $mailable->getSubject()) {
+            $message['subject'] = $subject;
+        }
     }
 
     protected function setFrom(array &$message, MailableInterface $mailable)
@@ -54,7 +56,13 @@ class MessageBuilder
 
     protected function setLangcode(array &$message, MailableInterface $mailable)
     {
-        $message['langcode'] = $mailable->getLangcode() ?? $this->languageManager->getDefaultLanguage()->getId();
+        if ($langcode = $mailable->getLangcode()) {
+            $message['langcode'] = $langcode;
+        }
+
+        if (!isset($message['langcode'])) {
+            $message['langcode'] = $this->languageManager->getDefaultLanguage()->getId();
+        }
     }
 
     protected function setRecepients(array &$message, MailableInterface $mailable)
