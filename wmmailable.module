@@ -12,10 +12,11 @@ function wmmailable_mail($key, &$message, $params)
         throw new \Exception('Mailable emails should be composed through the wmmailable.mailer service.');
     }
 
+    $message['id'] = $message['module'] . '_' . $key;
     $message['mailable'] = $params['mailable'];
 
     \Drupal::getContainer()->get('module_handler')
-        ->alter(['wmmailable', 'wmmailable_' . $key], $params['mailable']);
+        ->alter(['wmmailable', "wmmailable_{$message['id']}"], $params['mailable']);
 
     \Drupal::getContainer()->get('wmmailable.message_builder')
         ->populateMessage($message, $params['mailable']);
