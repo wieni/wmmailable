@@ -105,9 +105,11 @@ class ContactForm extends FormBase
 }
 ```
 
-- The mail template should be placed in the default theme:
+- Mail templates should be stored in a theme. This theme can be set in the `theme` value of the `wmmailable.settings` config, with the default theme as a fallback.
+
+- The location of the template within the theme is also configurable:
     - the default location is in the `mail` subfolder, with the id with dashes instead of underscores as template name.
-    - a custom location can be set in the annotation, in the form of a path relative to the default theme, with filename but without extension. Dots can be used as directory seperator.
+    - a custom location can be set in the annotation, in the form of a path relative to the theme, with filename but without extension. Dots can be used as directory seperator.
 
 ### Hooks
 - One hook is provided, `hook_mailable_alter`. This hook is called after the `send` method is called on the Mailable, but before the mail is sent.

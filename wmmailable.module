@@ -75,7 +75,8 @@ function wmmailable_mail_alter(&$message)
 function wmmailable_theme()
 {
     $manager = \Drupal::getContainer()->get('plugin.manager.mailable');
-    $themeName = \Drupal::config('system.theme')->get('default');
+    $themeName = \Drupal::config('wmmailable.settings')->get('theme')
+        ?? \Drupal::config('system.theme')->get('default');
     $dir = drupal_get_path('theme', $themeName) . DIRECTORY_SEPARATOR . 'templates';
     $data = [];
 
