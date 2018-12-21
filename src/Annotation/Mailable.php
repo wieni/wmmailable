@@ -11,4 +11,6 @@ class Mailable extends Plugin
 {
     /** @var string */
     protected $template;
+    /** @var string */
+    protected $module = 'wmmailable';
 }

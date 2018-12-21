@@ -38,8 +38,32 @@ class ContactFormSubmission extends MailableBase
 {
     public function build(array $parameters): MailableInterface;
 }
-
 ```
+
+- It is possible to take over other module's mails at the time of sending. To do this, change the `id` and `module` properties. The original mail parameters will be passed to the `build` method. Example:
+```php
+<?php
+
+namespace Drupal\wmcustom\Mail;
+
+/**
+ * @Mailable(
+ *     id = "register_no_approval_required",
+ *     module = "user",
+ *     template = "mail.account-confirmation"
+ * )
+ */
+class AccountConfirmationMail extends MailableBase
+{
+    public function build(array $parameters): MailableInterface
+    {
+        $parameters['oneTimeLoginUrl'] = user_pass_reset_url($parameters['account']);
+        
+        {...}
+    }
+}
+```
+
 ### Sending mails
 - Mails are sent through the `Mailer` service
 - Two standard `Mailer` implementations are provided: `mailable.mailer.direct` and `mailable.mailer.queued`

@@ -1,5 +1,6 @@
 <?php
 
+use Drupal\wmmailable\Exception\DiscardMailException;
 use Drupal\wmmailable\MailableInterface;
 
 /**
@@ -20,6 +21,52 @@ function wmmailable_mail($key, &$message, $params)
 
     \Drupal::getContainer()->get('wmmailable.message_builder')
         ->populateMessage($message, $params['mailable']);
+}
+
+/**
+ * Implements hook_mail_alter().
+ * Allows taking over mails of other modules.
+ */
+function wmmailable_mail_alter(&$message)
+{
+    if ($message['module'] === 'wmmailable') {
+        return;
+    }
+
+    $manager = \Drupal::getContainer()->get('plugin.manager.mailable');
+    $logger = \Drupal::logger('wmmailable');
+
+    foreach ($manager->getDefinitions() as $definition) {
+        if (
+            $definition['module'] !== $message['module']
+            || $definition['id'] !== $message['key']
+        ) {
+            continue;
+        }
+
+        /** @var MailableInterface $mailable */
+        $mailable = $manager->createInstance($message['key']);
+
+        try {
+            $mailable = $mailable->build($message['params']);
+        } catch (DiscardMailException $e) {
+            $logger->debug(
+                sprintf(
+                    'Discarded mailable \'%s\' (module: \'%s\'). Reason: %s',
+                    $message['key'],
+                    $message['module'],
+                    empty($e->getMessage()) ? 'none' : $e->getMessage()
+                )
+            );
+
+            $message['send'] = false;
+            return;
+        }
+
+        wmmailable_mail($message['key'], $message, compact('mailable'));
+
+        return;
+    }
 }
 
 /**
