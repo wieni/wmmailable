@@ -112,7 +112,7 @@ class ContactForm extends FormBase
     - a custom location can be set in the annotation, in the form of a path relative to the theme, with filename but without extension. Dots can be used as directory seperator.
 
 ### Hooks
-- One hook is provided, `hook_mailable_alter`. This hook is called after the `send` method is called on the Mailable, but before the mail is sent.
+- Two hooks are provided, `hook_mailable_alter` and `hook_mailable_{module}_{key}_alter`. These hooks are called after the `send` method is called on the mailable, but before the mail is sent.
 
 ```php
 <?php

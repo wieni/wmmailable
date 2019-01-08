@@ -17,7 +17,7 @@ function wmmailable_mail($key, &$message, $params)
     $message['mailable'] = $params['mailable'];
 
     \Drupal::getContainer()->get('module_handler')
-        ->alter(['wmmailable', "wmmailable_{$message['id']}"], $params['mailable']);
+        ->alter(['mailable', "mailable_{$message['id']}"], $params['mailable']);
 
     \Drupal::getContainer()->get('wmmailable.message_builder')
         ->populateMessage($message, $params['mailable']);
