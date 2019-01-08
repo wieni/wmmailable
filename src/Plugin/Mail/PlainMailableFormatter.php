@@ -39,21 +39,48 @@ class PlainMailableFormatter implements MailInterface, ContainerFactoryPluginInt
      */
     public function format(array $message)
     {
+        $contentType = 'text/plain';
+
         if (is_array($message['body'])) {
             $lineEndings = Settings::get('mail_line_endings', PHP_EOL);
-            $message['body'] = Markup::create(
-                implode($lineEndings, $message['body'])
-            );
+            $message['body'] = implode($lineEndings, $message['body']);
         }
 
+        if (
+            !empty($message['headers']['Content-Type'])
+            && preg_match('/.*\;/U', $message['headers']['Content-Type'], $matches)
+        ) {
+            $contentType = trim(substr($matches[0], 0, -1));
+        }
+
+        if ($contentType === 'text/html') {
+            $this->formatHtml($message);
+        } else {
+            $this->formatPlain($message);
+        }
+
+        return $message;
+    }
+
+    protected function formatPlain(array &$message)
+    {
+        $body = (string) $message['body'];
+
+        $body = html_entity_decode($body);
+        $body = strip_tags($body);
+        $body = trim($body);
+
+        $message['body'] = $body;
+    }
+
+    protected function formatHtml(array &$message)
+    {
         $render = [
             '#theme' => 'wmmailable',
             '#body' => $message['body'],
         ];
 
         $message['body'] = $this->renderer->renderPlain($render);
-
-        return $message;
     }
 
     /**
