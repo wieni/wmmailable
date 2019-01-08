@@ -16,7 +16,7 @@
     }
   ],
   "require": {
-    "php": "7.0.0",
+    "php": ">=7.0.0",
     "drupal/core": "^8",
     "tijsverkoyen/css-to-inline-styles": "^2.2"
   },
