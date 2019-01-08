@@ -1,7 +1,9 @@
 <?php
 
+use Drupal\wmmailable\Event\MailableAlterEvent;
 use Drupal\wmmailable\Exception\DiscardMailException;
 use Drupal\wmmailable\MailableInterface;
+use Drupal\wmmailable\WmmailableEvents;
 
 /**
  * Implements hook_mail().
@@ -67,6 +69,16 @@ function wmmailable_mail_alter(&$message)
 
         return;
     }
+}
+
+/**
+ * Implements hook_wmmailable_alter().
+ */
+function wmmailable_wmmailable_alter(MailableInterface $mailable)
+{
+    $dispatcher = \Drupal::getContainer()->get('event_dispatcher');
+    $dispatcher->dispatch(WmmailableEvents::MAILABLE_ALTER, new MailableAlterEvent($mailable));
+    $dispatcher->dispatch("wmmailable.mailable.{$mailable->getModule()}_{$mailable->getKey()}.alter", new MailableAlterEvent($mailable));
 }
 
 /**

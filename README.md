@@ -111,7 +111,7 @@ class ContactForm extends FormBase
     - the default location is in the `mail` subfolder, with the id with dashes instead of underscores as template name.
     - a custom location can be set in the annotation, in the form of a path relative to the theme, with filename but without extension. Dots can be used as directory seperator.
 
-### Hooks
+### Hooks and events
 - Two hooks are provided, `hook_mailable_alter` and `hook_mailable_{module}_{key}_alter`. These hooks are called after the `send` method is called on the mailable, but before the mail is sent.
 
 ```php
@@ -122,3 +122,28 @@ function wmcustom_mailable_alter(MailableInterface $mail)
     $mail->setHeader('X-SES-SOURCE-ARN', '<...>');
 }
 ```
+
+- Two events are provided, equivalent to the hooks:
+
+```php
+<?php
+
+use Drupal\wmmailable\Event\MailableAlterEvent;
+use Drupal\wmmailable\WmmailableEvents;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+
+class MailableAlterSubscriber implements EventSubscriberInterface
+{
+    public static function getSubscribedEvents()
+    {
+        $events[WmmailableEvents::MAILABLE_ALTER][] = 'onMailAlter';
+
+        return $events;
+    }
+
+    public function onMailAlter(MailableAlterEvent $event)
+    {
+        $mailable = $event->getMailable();
+        $mailable->setSubject("Here's a better subject.");
+    }
+}
