@@ -6,6 +6,7 @@ services:
     wmmailable.message_builder:
         class: Drupal\wmmailable\MessageBuilder
         arguments:
+            - '@config.factory'
             - '@language_manager'
             - '@renderer'
 

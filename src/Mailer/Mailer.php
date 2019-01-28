@@ -9,7 +9,7 @@ use Drupal\wmmailable\Exception\DiscardMailException;
 use Drupal\wmmailable\MailableInterface;
 use Drupal\wmmailable\MailableManager;
 
-class Mailer extends MailerBase implements MailerInterface
+class Mailer extends MailerBase
 {
     use StringTranslationTrait;
 

@@ -21,6 +21,10 @@ abstract class MailableBase extends PluginBase implements MailableInterface
     protected $libraries = [];
     /** @var array */
     protected $headers = [];
+    /** @var string */
+    protected $contentType;
+    /** @var string */
+    protected $charset;
 
     public function build(array $parameters): MailableInterface
     {
@@ -167,6 +171,28 @@ abstract class MailableBase extends PluginBase implements MailableInterface
     public function setHeader(string $name, string $header): MailableInterface
     {
         $this->headers[$name] = $header;
+        return $this;
+    }
+
+    public function getContentType(): ?string
+    {
+        return $this->contentType;
+    }
+
+    public function setContentType(string $contentType): MailableInterface
+    {
+        $this->contentType = $contentType;
+        return $this;
+    }
+
+    public function getCharset(): ?string
+    {
+        return $this->charset;
+    }
+
+    public function setCharset(string $charset): MailableInterface
+    {
+        $this->charset = $charset;
         return $this;
     }
 }

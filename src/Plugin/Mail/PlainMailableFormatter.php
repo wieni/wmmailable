@@ -39,12 +39,12 @@ class PlainMailableFormatter implements MailInterface, ContainerFactoryPluginInt
      */
     public function format(array $message)
     {
-        $contentType = 'text/plain';
-
         if (is_array($message['body'])) {
             $lineEndings = Settings::get('mail_line_endings', PHP_EOL);
             $message['body'] = implode($lineEndings, $message['body']);
         }
+
+        $contentType = null;
 
         if (
             !empty($message['headers']['Content-Type'])

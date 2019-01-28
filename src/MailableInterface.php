@@ -66,4 +66,12 @@ interface MailableInterface
     public function getHeader(string $name): string;
 
     public function setHeader(string $name, string $header): MailableInterface;
+
+    public function getContentType(): ?string;
+
+    public function setContentType(string $contentType): MailableInterface;
+
+    public function getCharset(): ?string;
+
+    public function setCharset(string $charset): MailableInterface;
 }

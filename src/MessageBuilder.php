@@ -2,20 +2,25 @@
 
 namespace Drupal\wmmailable;
 
+use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Language\LanguageManagerInterface;
 use Drupal\Core\Render\RendererInterface;
 
 class MessageBuilder
 {
+    /** @var ConfigFactoryInterface */
+    protected $config;
     /** @var LanguageManagerInterface */
     protected $languageManager;
     /** @var RendererInterface */
     protected $renderer;
 
     public function __construct(
+        ConfigFactoryInterface $configFactory,
         LanguageManagerInterface $languageManager,
         RendererInterface $renderer
     ) {
+        $this->config = $configFactory;
         $this->languageManager = $languageManager;
         $this->renderer = $renderer;
     }
@@ -27,6 +32,7 @@ class MessageBuilder
         $this->setFrom($message, $mailable);
         $this->setLangcode($message, $mailable);
         $this->setRecepients($message, $mailable);
+        $this->setContentType($message, $mailable);
         $this->setHeaders($message, $mailable);
     }
 
@@ -82,6 +88,19 @@ class MessageBuilder
         if (!empty($bcc)) {
             $message['headers']['Bcc'] = implode(', ', $bcc);
         }
+    }
+
+    protected function setContentType(array &$message, MailableInterface $mailable)
+    {
+        $contentType = $mailable->getContentType()
+            ?? $this->config->get('mailable.defaults')->get('contentType')
+            ?? 'text/html';
+
+        $charset = $mailable->getCharset()
+            ?? $this->config->get('mailable.defaults')->get('charset')
+            ?? 'utf-8';
+
+        $message['headers']['Content-Type'] = "{$contentType}; charset={$charset}";
     }
 
     protected function setHeaders(array &$message, MailableInterface $mailable)
