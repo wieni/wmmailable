@@ -36,7 +36,7 @@ function wmmailable_mail_alter(&$message)
     }
 
     $manager = \Drupal::getContainer()->get('plugin.manager.mailable');
-    $logger = \Drupal::logger('wmmailable');
+    $mailer = \Drupal::getContainer()->get('wmmailable.mailer');
 
     foreach ($manager->getDefinitions() as $definition) {
         if (
@@ -46,26 +46,8 @@ function wmmailable_mail_alter(&$message)
             continue;
         }
 
-        /** @var MailableInterface $mailable */
-        $mailable = $manager->createInstance($message['key']);
-
-        try {
-            $mailable = $mailable->build($message['params']);
-        } catch (DiscardMailException $e) {
-            $logger->debug(
-                sprintf(
-                    'Discarded mailable \'%s\' (module: \'%s\'). Reason: %s',
-                    $message['key'],
-                    $message['module'],
-                    empty($e->getMessage()) ? 'none' : $e->getMessage()
-                )
-            );
-
-            $message['send'] = false;
-            return;
-        }
-
-        wmmailable_mail($message['key'], $message, compact('mailable'));
+        $message['send'] = false;
+        $mailer->to([$message['to']])->send($message['key'], $message['params']);
 
         return;
     }
