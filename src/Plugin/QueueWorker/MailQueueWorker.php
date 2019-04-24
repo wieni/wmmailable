@@ -2,10 +2,10 @@
 
 namespace Drupal\wmmailable\Plugin\QueueWorker;
 
+use Drupal\Component\Render\PlainTextOutput;
+use Drupal\Core\Mail\MailManagerInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Queue\QueueWorkerBase;
-use Drupal\wmmailable\MailableInterface;
-use Drupal\wmmailable\Mailer\MailerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -17,17 +17,17 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  */
 class MailQueueWorker extends QueueWorkerBase implements ContainerFactoryPluginInterface
 {
-    /** @var MailerInterface */
-    protected $mailer;
+    /** @var MailManagerInterface */
+    protected $mailManager;
 
     public function __construct(
         array $configuration,
         $pluginId,
         $pluginDefinition,
-        MailerInterface $mailer
+        MailManagerInterface $mailManager
     ) {
         parent::__construct($configuration, $pluginId, $pluginDefinition);
-        $this->mailer = $mailer;
+        $this->mailManager = $mailManager;
     }
 
     public static function create(
@@ -40,21 +40,31 @@ class MailQueueWorker extends QueueWorkerBase implements ContainerFactoryPluginI
             $configuration,
             $pluginId,
             $pluginDefinition,
-            $container->get('wmmailable.mailer.direct')
+            $container->get('plugin.manager.mail')
         );
     }
 
+    /** Taken from @see MailManager::doMail */
     public function processItem($item)
     {
-        $result = $this->mailer
-            ->from($item['from'])
-            ->replyTo($item['reply-to'])
-            ->to($item['recipients'][MailableInterface::RECEPIENT_TO] ?? [])
-            ->cc($item['recipients'][MailableInterface::RECEPIENT_CC] ?? [])
-            ->bcc($item['recipients'][MailableInterface::RECEPIENT_BCC] ?? [])
-            ->send($item['id'], $item['parameters']);
+        $message = $item['message'];
 
-        if (!$result) {
+        // Retrieve the responsible implementation for this message.
+        $system = $this->mailManager->getInstance([
+            'module' => $message['module'],
+            'key' => $message['key'],
+        ]);
+
+        // Ensure that subject is plain text. By default translated and
+        // formatted strings are prepared for the HTML context and email
+        // subjects are plain strings.
+        if ($message['subject']) {
+            $message['subject'] = PlainTextOutput::renderFromHtml($message['subject']);
+        }
+
+        $message['result'] = $system->mail($message);
+
+        if (!$message['result']) {
             throw new \Exception('Error while trying to send queued mailable.');
         }
     }

@@ -12,16 +12,26 @@ services:
 
     wmmailable.mailer:
         parent: wmmailable.mailer.direct
+        arguments:
+            - '@plugin.manager.mail'
+
+    wmmailable.mailer.base:
+        abstract: true
+        class: Drupal\wmmailable\Mailer\MailerBase
+        arguments:
+            - '@plugin.manager.mailable'
+            - '@logger.factory'
 
     wmmailable.mailer.direct:
         class: Drupal\wmmailable\Mailer\Mailer
+        parent: wmmailable.mailer.base
         arguments:
             - '@plugin.manager.mail'
-            - '@plugin.manager.mailable'
-            - '@logger.factory'
         shared: false
 
     wmmailable.mailer.queued:
         class: Drupal\wmmailable\Mailer\QueuedMailer
+        parent: wmmailable.mailer.base
         arguments:
+            - '@plugin.manager.mail'
             - '@queue'
