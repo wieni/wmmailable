@@ -6,6 +6,10 @@ use Drupal\wmmailable\MailableInterface;
 
 abstract class MailerBase implements MailerInterface
 {
+    /** @var string */
+    protected $from;
+    /** @var string */
+    protected $replyTo;
     /** @var array */
     protected $recepients = [
         MailableInterface::RECEPIENT_TO => [],
@@ -28,6 +32,18 @@ abstract class MailerBase implements MailerInterface
     public function bcc(array $bcc): MailerInterface
     {
         $this->recepients[MailableInterface::RECEPIENT_BCC] = $bcc;
+        return $this;
+    }
+
+    public function from(string $from): MailerInterface
+    {
+        $this->from = $from;
+        return $this;
+    }
+
+    public function replyTo(string $replyTo): MailerInterface
+    {
+        $this->replyTo = $replyTo;
         return $this;
     }
 }

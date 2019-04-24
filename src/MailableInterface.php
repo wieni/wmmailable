@@ -29,6 +29,10 @@ interface MailableInterface
 
     public function setFrom(string $from): MailableInterface;
 
+    public function getReplyTo(): string;
+
+    public function setReplyTo(string $replyTo): MailableInterface;
+
     public function getLangcode(): string;
 
     public function setLangcode(string $langcode): MailableInterface;

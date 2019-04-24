@@ -47,6 +47,14 @@ class Mailer extends MailerBase
             }
         }
 
+        if ($this->from) {
+            $mailable->setFrom($this->from);
+        }
+
+        if ($this->replyTo) {
+            $mailable->setReplyTo($this->replyTo);
+        }
+
         try {
             $mailable = $mailable->build($parameters);
         } catch (DiscardMailException $e) {

@@ -23,6 +23,8 @@ class QueuedMailer extends MailerBase implements MailerInterface
         return $this->queue->createItem([
             'id' => $id,
             'parameters' => $parameters,
+            'from' => $this->from,
+            'reply-to' => $this->replyTo,
             'recipients' => $this->recepients,
         ]);
     }

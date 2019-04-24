@@ -3,6 +3,7 @@
 use Drupal\wmmailable\Event\MailableAlterEvent;
 use Drupal\wmmailable\Exception\DiscardMailException;
 use Drupal\wmmailable\MailableInterface;
+use Drupal\wmmailable\Mailer\MailerInterface;
 use Drupal\wmmailable\WmmailableEvents;
 
 /**
@@ -36,6 +37,7 @@ function wmmailable_mail_alter(&$message)
     }
 
     $manager = \Drupal::getContainer()->get('plugin.manager.mailable');
+    /** @var MailerInterface $mailer */
     $mailer = \Drupal::getContainer()->get('wmmailable.mailer');
 
     foreach ($manager->getDefinitions() as $definition) {
@@ -47,7 +49,12 @@ function wmmailable_mail_alter(&$message)
         }
 
         $message['send'] = false;
-        $mailer->to([$message['to']])->send($message['key'], $message['params']);
+
+        $mailer
+            ->to([$message['to']])
+            ->from($message['from'])
+            ->replyTo($message['reply-to'])
+            ->send($message['key'], $message['params']);
 
         return;
     }

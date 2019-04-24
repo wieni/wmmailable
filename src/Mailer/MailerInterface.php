@@ -10,5 +10,9 @@ interface MailerInterface
 
     public function bcc(array $bcc): MailerInterface;
 
+    public function from(string $from): MailerInterface;
+
+    public function replyTo(string $replyTo): MailerInterface;
+
     public function send(string $id, array $parameters = []): bool;
 }

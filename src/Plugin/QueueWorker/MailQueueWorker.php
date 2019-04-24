@@ -47,6 +47,8 @@ class MailQueueWorker extends QueueWorkerBase implements ContainerFactoryPluginI
     public function processItem($item)
     {
         $result = $this->mailer
+            ->from($item['from'])
+            ->replyTo($item['reply-to'])
             ->to($item['recipients'][MailableInterface::RECEPIENT_TO] ?? [])
             ->cc($item['recipients'][MailableInterface::RECEPIENT_CC] ?? [])
             ->bcc($item['recipients'][MailableInterface::RECEPIENT_BCC] ?? [])

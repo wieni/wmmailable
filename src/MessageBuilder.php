@@ -30,6 +30,7 @@ class MessageBuilder
         $this->setBody($message, $mailable);
         $this->setSubject($message, $mailable);
         $this->setFrom($message, $mailable);
+        $this->setReplyTo($message, $mailable);
         $this->setLangcode($message, $mailable);
         $this->setRecepients($message, $mailable);
         $this->setContentType($message, $mailable);
@@ -57,6 +58,13 @@ class MessageBuilder
     {
         if ($from = $mailable->getFrom()) {
             $message['from'] = $from;
+        }
+    }
+
+    protected function setReplyTo(array &$message, MailableInterface $mailable)
+    {
+        if ($replyTo = $mailable->getReplyTo()) {
+            $message['reply-to'] = $replyTo;
         }
     }
 
