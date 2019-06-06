@@ -9,12 +9,12 @@
       "email": "info@wieni.be"
     }
   ],
-  "repositories": [
-    {
+  "repositories": {
+    "drupal-composer": {
       "type": "composer",
-      "url": "https://packagist.drupal-composer.org"
+      "url": "https://packages.drupal.org/8"
     }
-  ],
+  },
   "require": {
     "php": ">=7.0.0",
     "drupal/core": "^8",
