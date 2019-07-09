@@ -27,11 +27,11 @@ class MessageBuilder
 
     public function populateMessage(array &$message, MailableInterface $mailable)
     {
+        $this->setLangcode($message, $mailable);
         $this->setBody($message, $mailable);
         $this->setSubject($message, $mailable);
         $this->setFrom($message, $mailable);
         $this->setReplyTo($message, $mailable);
-        $this->setLangcode($message, $mailable);
         $this->setRecepients($message, $mailable);
         $this->setContentType($message, $mailable);
         $this->setHeaders($message, $mailable);
@@ -40,7 +40,7 @@ class MessageBuilder
     protected function setBody(array &$message, MailableInterface $mailable)
     {
         $render = [
-            '#theme' => "wmmailable.{$mailable->getKey()}",
+            '#theme' => "wmmailable.{$mailable->getKey()}.{$mailable->getLangcode()}",
             '#_data' => $mailable->getParameters(),
         ];
 
@@ -70,13 +70,13 @@ class MessageBuilder
 
     protected function setLangcode(array &$message, MailableInterface $mailable)
     {
-        if ($langcode = $mailable->getLangcode()) {
-            $message['langcode'] = $langcode;
+        if (!$mailable->getLangcode()) {
+            $mailable->setLangcode(
+                $this->languageManager->getDefaultLanguage()->getId()
+            );
         }
 
-        if (!isset($message['langcode'])) {
-            $message['langcode'] = $this->languageManager->getDefaultLanguage()->getId();
-        }
+        $message['langcode'] = $mailable->getLangcode();
     }
 
     protected function setRecepients(array &$message, MailableInterface $mailable)

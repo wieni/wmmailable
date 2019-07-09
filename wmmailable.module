@@ -78,6 +78,7 @@ function wmmailable_theme()
     $manager = \Drupal::getContainer()->get('plugin.manager.mailable');
     $themeName = \Drupal::config('wmmailable.settings')->get('theme')
         ?? \Drupal::config('system.theme')->get('default');
+    $languages = \Drupal::getContainer()->get('language_manager')->getLanguages();
     $dir = drupal_get_path('theme', $themeName) . DIRECTORY_SEPARATOR . 'templates';
     $data = [];
 
@@ -90,16 +91,25 @@ function wmmailable_theme()
 
         $path = $dir . DIRECTORY_SEPARATOR . $template;
 
-        $data["wmmailable.$id"] = [
-            'variables' => [
-                '_data' => [],
-            ],
-            'path' => dirname($path),
-            'template' => basename($path),
-            'preprocess functions' => [
-                'wmmailable_theme_set_variables',
-            ],
-        ];
+        foreach ($languages as $language) {
+            $langcode = $language->getId();
+            $langPath = sprintf('%s.%s', $path, $langcode);
+
+            if (!file_exists(DRUPAL_ROOT . DIRECTORY_SEPARATOR . $langPath . '.html.twig')) {
+                $langPath = $path;
+            }
+
+            $data["wmmailable.$id.$langcode"] = [
+                'variables' => [
+                    '_data' => [],
+                ],
+                'path' => dirname($langPath),
+                'template' => basename($langPath),
+                'preprocess functions' => [
+                    'wmmailable_theme_set_variables',
+                ],
+            ];
+        }
     }
 
     $data['wmmailable'] = [
