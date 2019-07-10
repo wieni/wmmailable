@@ -2,6 +2,7 @@
 
 namespace Drupal\wmmailable\Mailer;
 
+use Drupal\Core\Logger\LoggerChannelFactoryInterface;
 use Drupal\wmmailable\Exception\DiscardMailException;
 use Drupal\wmmailable\MailableInterface;
 use Drupal\wmmailable\MailableManager;
