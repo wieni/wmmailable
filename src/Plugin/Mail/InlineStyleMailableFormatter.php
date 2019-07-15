@@ -6,7 +6,6 @@ use Drupal\Core\Asset\AssetResolverInterface;
 use Drupal\Core\Asset\AttachedAssets;
 use Drupal\Core\File\FileSystem;
 use Drupal\Core\Mail\MailManagerInterface;
-use Drupal\Core\Render\RendererInterface;
 use Drupal\wmmailable\MailableInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use TijsVerkoyen\CssToInlineStyles\CssToInlineStyles;
@@ -20,22 +19,21 @@ use TijsVerkoyen\CssToInlineStyles\CssToInlineStyles;
  *   description = @Translation("Mail formatter which converts attached css to inline styles.")
  * )
  */
-class InlineStyleMailableFormatter extends PlainMailableFormatter
+class InlineStyleMailableFormatter extends MailableFormatterBase
 {
-    /** @var FileSystem */
-    protected $fileSystem;
     /** @var AssetResolverInterface */
     protected $assetResolver;
+    /** @var FileSystem */
+    protected $fileSystem;
 
     public function __construct(
         MailManagerInterface $mailManager,
-        RendererInterface $renderer,
-        FileSystem $fileSystem,
-        AssetResolverInterface $assetResolver
+        AssetResolverInterface $assetResolver,
+        FileSystem $fileSystem
     ) {
-        parent::__construct($mailManager, $renderer);
-        $this->fileSystem = $fileSystem;
+        parent::__construct($mailManager);
         $this->assetResolver = $assetResolver;
+        $this->fileSystem = $fileSystem;
     }
 
     /**
@@ -43,7 +41,8 @@ class InlineStyleMailableFormatter extends PlainMailableFormatter
      */
     public function format(array $message)
     {
-        $message = parent::format($message);
+        /** @var PlainMailableFormatter $plainFormatter */
+        $plainFormatter = $this->mailManager->createInstance('mailable_plain');
         /** @var MailableInterface $mailable */
         $mailable = $message['mailable'] ?? null;
 
@@ -52,6 +51,7 @@ class InlineStyleMailableFormatter extends PlainMailableFormatter
             $css = implode(PHP_EOL, $this->getCss($mailable));
         }
 
+        $message = $plainFormatter->format($message);
         $message['body'] = (new CssToInlineStyles())->convert($message['body'], $css);
 
         return $message;
@@ -90,9 +90,8 @@ class InlineStyleMailableFormatter extends PlainMailableFormatter
     ) {
         return new static(
             $container->get('plugin.manager.mail'),
-            $container->get('renderer'),
-            $container->get('file_system'),
-            $container->get('asset.resolver')
+            $container->get('asset.resolver'),
+            $container->get('file_system')
         );
     }
 }

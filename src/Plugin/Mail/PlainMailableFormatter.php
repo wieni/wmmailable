@@ -2,10 +2,7 @@
 
 namespace Drupal\wmmailable\Plugin\Mail;
 
-use Drupal\Core\Mail\MailInterface;
 use Drupal\Core\Mail\MailManagerInterface;
-use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
-use Drupal\Core\Render\Markup;
 use Drupal\Core\Render\RendererInterface;
 use Drupal\Core\Site\Settings;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -19,10 +16,8 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *   description = @Translation("Basic mail formatter.")
  * )
  */
-class PlainMailableFormatter implements MailInterface, ContainerFactoryPluginInterface
+class PlainMailableFormatter extends MailableFormatterBase
 {
-    /** @var MailManagerInterface */
-    protected $mailManager;
     /** @var RendererInterface */
     protected $renderer;
 
@@ -30,7 +25,7 @@ class PlainMailableFormatter implements MailInterface, ContainerFactoryPluginInt
         MailManagerInterface $mailManager,
         RendererInterface $renderer
     ) {
-        $this->mailManager = $mailManager;
+        parent::__construct($mailManager);
         $this->renderer = $renderer;
     }
 
@@ -81,24 +76,6 @@ class PlainMailableFormatter implements MailInterface, ContainerFactoryPluginInt
         ];
 
         $message['body'] = $this->renderer->renderPlain($render);
-    }
-
-    /**
-     * {@inheritdoc}
-     *
-     * This plugin does not provide an implementation for sending mails,
-     * so it uses the one configured in the mailsystem module.
-     */
-    public function mail(array $message)
-    {
-        $options = [
-            'module' => $message['module'] ?? null,
-            'key' => $message['key'] ?? null,
-        ];
-
-        return $this->mailManager
-            ->getInstance($options)
-            ->mail($message);
     }
 
     /**
