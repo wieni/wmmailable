@@ -74,6 +74,8 @@ class AccountConfirmationMail extends MailableBase
 
 namespace Drupal\wmcustom\Form;
 
+use Drupal\wmmailable\Mailer\MailerInterface;
+
 class ContactForm extends FormBase
 {
     /** @var MailerInterface */
@@ -87,13 +89,14 @@ class ContactForm extends FormBase
 
     public function submitForm(array &$form, FormStateInterface $formState)
     {
-        $this->mailer
-            ->to(['Wieni <info@wieni.be>', 'dieter@wieni.be'])
-            ->bcc(['sophie@wieni.be'])
-            ->send(
-                'contact_form_submission',
+        $mail = $this->mailer->create('contact_form_submission')
+            ->setRecepients(['Wieni <info@wieni.be>', 'dieter@wieni.be'])
+            ->addBcc('sophie@wieni.be')
+            ->setParameters(
                 compact('domain', 'firstName', 'lastName', 'email', 'question')
             );
+        
+        $this->mailer->send($mail);
 	}
 
 	public static function create(ContainerInterface $container)
