@@ -116,7 +116,7 @@ abstract class MailableBase extends PluginBase implements MailableInterface
 
     public function addLibrary(string $library): MailableInterface
     {
-        if (array_search($library, $this->libraries) === false) {
+        if (!in_array($library, $this->libraries)) {
             $this->libraries[] = $library;
         }
         return $this;
@@ -135,7 +135,7 @@ abstract class MailableBase extends PluginBase implements MailableInterface
 
     public function addRecepient(string $recepient, string $type = self::RECEPIENT_TO): MailableInterface
     {
-        if (array_search($recepient, $this->recepients[$type] ?? []) === false) {
+        if (!in_array($recepient, $this->recepients[$type] ?? [])) {
             $this->recepients[$type][] = $recepient;
         }
         return $this;
