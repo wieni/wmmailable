@@ -16,6 +16,15 @@ wmmailable
 - No clean, object-oriented API, e.g. to add CC / BCC-adresses you have to manually add headers
 - Not intuitive, logic is scattered across multiple files, tends to get messy
 
+## Installation
+
+This package requires PHP 7.2 and Drupal 8 or higher. It can be
+installed using Composer:
+
+```bash
+ composer require wieni/wmmailable
+```
+
 ## How does it work?
 
 ### Building mails
@@ -150,3 +159,25 @@ class MailableAlterSubscriber implements EventSubscriberInterface
         $mailable->setSubject("Here's a better subject.");
     }
 }
+```
+
+## Maintainers
+* [**Dieter Holvoet**](https://github.com/DieterHolvoet) - *Initial
+  work*
+
+See also the list of
+[contributors](https://github.com/wieni/wmmailable/contributors) who
+participated in this project.
+
+## Changelog
+All notable changes to this project will be documented in the
+[CHANGELOG](CHANGELOG.md) file.
+
+## Security
+If you discover any security-related issues, please email
+[info@wieni.be](mailto:info@wieni.be) instead of using the issue
+tracker.
+
+## License
+Distributed under the MIT License. See the [LICENSE](LICENSE.md) file
+for more information.
