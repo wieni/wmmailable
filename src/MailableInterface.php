@@ -13,7 +13,7 @@ interface MailableInterface
     /**
      * @throws DiscardMailException if the mail should be discarded
      */
-    public function build(array $parameters): MailableInterface;
+    public function build(): MailableInterface;
 
     public function getKey(): string;
 

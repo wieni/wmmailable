@@ -28,9 +28,9 @@ abstract class MailableBase extends PluginBase implements MailableInterface
     /** @var string */
     protected $charset;
 
-    public function build(array $parameters): MailableInterface
+    public function build(): MailableInterface
     {
-        return $this->setParameters($parameters);
+        return $this;
     }
 
     public function getKey(): string

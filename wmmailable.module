@@ -1,7 +1,6 @@
 <?php
 
 use Drupal\wmmailable\Event\MailableAlterEvent;
-use Drupal\wmmailable\Exception\DiscardMailException;
 use Drupal\wmmailable\MailableInterface;
 use Drupal\wmmailable\Mailer\MailerInterface;
 use Drupal\wmmailable\WmmailableEvents;
@@ -50,11 +49,13 @@ function wmmailable_mail_alter(&$message)
 
         $message['send'] = false;
 
-        $mailer
-            ->to([$message['to']])
-            ->from($message['from'])
-            ->replyTo($message['reply-to'])
-            ->send($message['key'], $message['params']);
+        $mail = $mailer->create($message['key'])
+            ->addRecepient($message['to'])
+            ->setFrom($message['from'])
+            ->setReplyTo($message['reply-to'])
+            ->setParameters($message['params']);
+
+        $mailer->send($mail);
 
         return;
     }
