@@ -1,5 +1,5 @@
 <a href="https://www.wieni.be">
-    <img src="https://www.wieni.be/themes/custom/drupack/logo.svg" alt="Wieni logo" title="Wieni" align="right" height="60" />
+    <img src="https://i.imgur.com/WzttEUn.png" alt="Wieni logo" title="Wieni" align="right" height="60" />
 </a>
 
 wmmailable
