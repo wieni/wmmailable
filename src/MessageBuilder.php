@@ -25,7 +25,7 @@ class MessageBuilder
         $this->renderer = $renderer;
     }
 
-    public function populateMessage(array &$message, MailableInterface $mailable)
+    public function populateMessage(array &$message, MailableInterface $mailable): void
     {
         $this->setLangcode($message, $mailable);
         $this->setBody($message, $mailable);
@@ -37,7 +37,7 @@ class MessageBuilder
         $this->setHeaders($message, $mailable);
     }
 
-    protected function setBody(array &$message, MailableInterface $mailable)
+    protected function setBody(array &$message, MailableInterface $mailable): void
     {
         $render = [
             '#theme' => "wmmailable.{$mailable->getKey()}.{$mailable->getLangcode()}",
@@ -47,28 +47,28 @@ class MessageBuilder
         $message['body'] = [$this->renderer->renderPlain($render)];
     }
 
-    protected function setSubject(array &$message, MailableInterface $mailable)
+    protected function setSubject(array &$message, MailableInterface $mailable): void
     {
         if ($subject = $mailable->getSubject()) {
             $message['subject'] = $subject;
         }
     }
 
-    protected function setFrom(array &$message, MailableInterface $mailable)
+    protected function setFrom(array &$message, MailableInterface $mailable): void
     {
         if ($from = $mailable->getFrom()) {
             $message['from'] = $from;
         }
     }
 
-    protected function setReplyTo(array &$message, MailableInterface $mailable)
+    protected function setReplyTo(array &$message, MailableInterface $mailable): void
     {
         if ($replyTo = $mailable->getReplyTo()) {
             $message['reply-to'] = $replyTo;
         }
     }
 
-    protected function setLangcode(array &$message, MailableInterface $mailable)
+    protected function setLangcode(array &$message, MailableInterface $mailable): void
     {
         if (!$mailable->getLangcode()) {
             $mailable->setLangcode(
@@ -79,7 +79,7 @@ class MessageBuilder
         $message['langcode'] = $mailable->getLangcode();
     }
 
-    protected function setRecepients(array &$message, MailableInterface $mailable)
+    protected function setRecepients(array &$message, MailableInterface $mailable): void
     {
         $to = $mailable->getRecepients(MailableInterface::RECEPIENT_TO);
         $cc = $mailable->getRecepients(MailableInterface::RECEPIENT_CC);
@@ -98,7 +98,7 @@ class MessageBuilder
         }
     }
 
-    protected function setContentType(array &$message, MailableInterface $mailable)
+    protected function setContentType(array &$message, MailableInterface $mailable): void
     {
         $contentType = $mailable->getContentType()
             ?? $this->config->get('mailable.defaults')->get('contentType')
@@ -111,7 +111,7 @@ class MessageBuilder
         $message['headers']['Content-Type'] = "{$contentType}; charset={$charset}";
     }
 
-    protected function setHeaders(array &$message, MailableInterface $mailable)
+    protected function setHeaders(array &$message, MailableInterface $mailable): void
     {
         foreach ($mailable->getHeaders() as $name => $header) {
             $message['headers'][$name] = $header;
