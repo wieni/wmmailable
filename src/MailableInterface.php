@@ -6,9 +6,9 @@ use Drupal\wmmailable\Exception\DiscardMailException;
 
 interface MailableInterface
 {
-    const RECEPIENT_TO = 'RECEPIENT_TO';
-    const RECEPIENT_CC = 'RECEPIENT_CC';
-    const RECEPIENT_BCC = 'RECEPIENT_BCC';
+    public const RECEPIENT_TO = 'RECEPIENT_TO';
+    public const RECEPIENT_CC = 'RECEPIENT_CC';
+    public const RECEPIENT_BCC = 'RECEPIENT_BCC';
 
     /**
      * @throws DiscardMailException if the mail should be discarded

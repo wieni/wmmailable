@@ -11,5 +11,5 @@ final class WmmailableEvents
      * The event object is an instance of
      * @uses \Drupal\wmmailable\Event\MailableAlterEvent
      */
-    const MAILABLE_ALTER = 'wmmailable.mailable.alter';
+    public const MAILABLE_ALTER = 'wmmailable.mailable.alter';
 }

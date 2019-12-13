@@ -12,7 +12,7 @@ use Drupal\wmmailable\MailableManager;
 
 class QueuedMailer extends MailerBase
 {
-    const QUEUE_ID = 'wmmailable_mail';
+    public const QUEUE_ID = 'wmmailable_mail';
 
     /** @var LoggerChannelFactoryInterface */
     protected $logger;
