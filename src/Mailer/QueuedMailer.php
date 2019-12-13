@@ -2,7 +2,7 @@
 
 namespace Drupal\wmmailable\Mailer;
 
-use Drupal\Core\Logger\LoggerChannelFactoryInterface;
+use Drupal\Core\Logger\LoggerChannelInterface;
 use Drupal\Core\Mail\MailManager;
 use Drupal\Core\Queue\QueueFactory;
 use Drupal\Core\Queue\QueueInterface;
@@ -14,7 +14,7 @@ class QueuedMailer extends MailerBase
 {
     public const QUEUE_ID = 'wmmailable_mail';
 
-    /** @var LoggerChannelFactoryInterface */
+    /** @var LoggerChannelInterface */
     protected $logger;
     /** @var MailManager */
     protected $mailManager;
@@ -23,7 +23,7 @@ class QueuedMailer extends MailerBase
 
     public function __construct(
         MailableManager $mailableManager,
-        LoggerChannelFactoryInterface $logger,
+        LoggerChannelInterface $logger,
         MailManager $mailManager,
         QueueFactory $queueFactory
     ) {
@@ -38,7 +38,7 @@ class QueuedMailer extends MailerBase
         try {
             $mailable->build();
         } catch (DiscardMailException $e) {
-            $this->logger->get('wmmailable')->debug(
+            $this->logger->debug(
                 sprintf(
                     'Discarded mailable \'%s\'. Reason: %s',
                     $mailable->getKey(),

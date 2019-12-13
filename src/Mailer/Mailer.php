@@ -2,7 +2,7 @@
 
 namespace Drupal\wmmailable\Mailer;
 
-use Drupal\Core\Logger\LoggerChannelFactoryInterface;
+use Drupal\Core\Logger\LoggerChannelInterface;
 use Drupal\Core\Mail\MailManager;
 use Drupal\wmmailable\Exception\DiscardMailException;
 use Drupal\wmmailable\MailableInterface;
@@ -10,14 +10,14 @@ use Drupal\wmmailable\MailableManager;
 
 class Mailer extends MailerBase
 {
-    /** @var LoggerChannelFactoryInterface */
+    /** @var LoggerChannelInterface */
     protected $logger;
     /** @var MailManager */
     protected $mailManager;
 
     public function __construct(
         MailableManager $mailableManager,
-        LoggerChannelFactoryInterface $logger,
+        LoggerChannelInterface $logger,
         MailManager $mailManager
     ) {
         parent::__construct($mailableManager);
@@ -30,7 +30,7 @@ class Mailer extends MailerBase
         try {
             $mailable->build();
         } catch (DiscardMailException $e) {
-            $this->logger->get('wmmailable')->debug(
+            $this->logger->debug(
                 sprintf(
                     'Discarded mailable \'%s\'. Reason: %s',
                     $mailable->getKey(),

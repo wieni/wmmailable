@@ -25,12 +25,17 @@ services:
         class: Drupal\wmmailable\Mailer\Mailer
         parent: wmmailable.mailer.base
         arguments:
-            - '@logger.factory'
+            - '@logger.channel.wmmailable'
             - '@plugin.manager.mail'
 
     wmmailable.mailer.queued:
         class: Drupal\wmmailable\Mailer\QueuedMailer
         parent: wmmailable.mailer.base
         arguments:
+            - '@logger.channel.wmmailable'
             - '@plugin.manager.mail'
             - '@queue'
+
+    logger.channel.wmmailable:
+        parent: logger.channel_base
+        arguments: ['wmmailable']
