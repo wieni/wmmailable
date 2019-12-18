@@ -8,16 +8,13 @@ use Hampe\Inky\Inky;
  * Provides a plugin to format mails
  *
  * @Mail(
- *   id = "mailable_foundation_for_emails",
- *   label = @Translation("Mailable - Foundation for Emails"),
- *   description = @Translation("Mail formatter which transpiles Foundation for Emails markup to regular HTML.")
+ *     id = "mailable_foundation_for_emails",
+ *     label = @Translation("Mailable - Foundation for Emails"),
+ *     description = @Translation("Mail formatter which transpiles Foundation for Emails markup to regular HTML.")
  * )
  */
 class FoundationForEmailsMailableFormatter extends MailableFormatterBase
 {
-    /**
-     * {@inheritdoc}
-     */
     public function format(array $message)
     {
         if (!class_exists('Hampe\Inky\Inky')) {

@@ -14,9 +14,9 @@ use TijsVerkoyen\CssToInlineStyles\CssToInlineStyles;
  * Provides a plugin to format mails
  *
  * @Mail(
- *   id = "mailable_inline_style",
- *   label = @Translation("Mailable - With inline styles"),
- *   description = @Translation("Mail formatter which converts attached css to inline styles.")
+ *     id = "mailable_inline_style",
+ *     label = @Translation("Mailable - With inline styles"),
+ *     description = @Translation("Mail formatter which converts attached css to inline styles.")
  * )
  */
 class InlineStyleMailableFormatter extends MailableFormatterBase
@@ -36,9 +36,19 @@ class InlineStyleMailableFormatter extends MailableFormatterBase
         $this->fileSystem = $fileSystem;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    public static function create(
+        ContainerInterface $container,
+        array $configuration,
+        $plugin_id,
+        $plugin_definition
+    ) {
+        return new static(
+            $container->get('plugin.manager.mail'),
+            $container->get('asset.resolver'),
+            $container->get('file_system')
+        );
+    }
+
     public function format(array $message)
     {
         /** @var PlainMailableFormatter $plainFormatter */
@@ -76,22 +86,6 @@ class InlineStyleMailableFormatter extends MailableFormatterBase
                 },
                 $cssAssets
             )
-        );
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public static function create(
-        ContainerInterface $container,
-        array $configuration,
-        $plugin_id,
-        $plugin_definition
-    ) {
-        return new static(
-            $container->get('plugin.manager.mail'),
-            $container->get('asset.resolver'),
-            $container->get('file_system')
         );
     }
 }

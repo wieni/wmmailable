@@ -18,14 +18,20 @@ abstract class MailableFormatterBase implements MailInterface, ContainerFactoryP
         $this->mailManager = $mailManager;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    public static function create(
+        ContainerInterface $container,
+        array $configuration,
+        $plugin_id,
+        $plugin_definition
+    ) {
+        return new static(
+            $container->get('plugin.manager.mail')
+        );
+    }
+
     abstract public function format(array $message);
 
     /**
-     * {@inheritdoc}
-     *
      * This plugin does not provide an implementation for sending mails,
      * so it uses the one configured in the mailsystem module.
      */
@@ -39,19 +45,5 @@ abstract class MailableFormatterBase implements MailInterface, ContainerFactoryP
         return $this->mailManager
             ->getInstance($options)
             ->mail($message);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public static function create(
-        ContainerInterface $container,
-        array $configuration,
-        $plugin_id,
-        $plugin_definition
-    ) {
-        return new static(
-            $container->get('plugin.manager.mail')
-        );
     }
 }

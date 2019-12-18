@@ -10,9 +10,9 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * @QueueWorker(
- *   id = \Drupal\wmmailable\Mailer\QueuedMailer::QUEUE_ID,
- *   title = @Translation("Mail queue"),
- *   cron = {"time" = 30}
+ *     id = \Drupal\wmmailable\Mailer\QueuedMailer::QUEUE_ID,
+ *     title = @Translation("Mail queue"),
+ *     cron = {"time" : 30}
  * )
  */
 class MailQueueWorker extends QueueWorkerBase implements ContainerFactoryPluginInterface

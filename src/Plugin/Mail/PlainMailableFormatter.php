@@ -11,9 +11,9 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * Provides a plugin to format mails
  *
  * @Mail(
- *   id = "mailable_plain",
- *   label = @Translation("Mailable - Plain"),
- *   description = @Translation("Basic mail formatter.")
+ *     id = "mailable_plain",
+ *     label = @Translation("Mailable - Plain"),
+ *     description = @Translation("Basic mail formatter.")
  * )
  */
 class PlainMailableFormatter extends MailableFormatterBase
@@ -29,9 +29,18 @@ class PlainMailableFormatter extends MailableFormatterBase
         $this->renderer = $renderer;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    public static function create(
+        ContainerInterface $container,
+        array $configuration,
+        $plugin_id,
+        $plugin_definition
+    ) {
+        return new static(
+            $container->get('plugin.manager.mail'),
+            $container->get('renderer')
+        );
+    }
+
     public function format(array $message)
     {
         if (is_array($message['body'])) {
@@ -76,20 +85,5 @@ class PlainMailableFormatter extends MailableFormatterBase
         ];
 
         $message['body'] = $this->renderer->renderPlain($render);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public static function create(
-        ContainerInterface $container,
-        array $configuration,
-        $plugin_id,
-        $plugin_definition
-    ) {
-        return new static(
-            $container->get('plugin.manager.mail'),
-            $container->get('renderer')
-        );
     }
 }
