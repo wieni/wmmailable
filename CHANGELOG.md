@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Change the PHP version constraint to 7.2
 - Change the mailer services to inject logger channel directly instead
   of injecting the logger factory
+- Remove maintainers section & update security email address in README
   
 ## [1.9.1] - 2019-11-22
 ### Changed
