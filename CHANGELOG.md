@@ -11,7 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Change the mailer service to allow sending more than one mail
   ([#4](https://github.com/wieni/wmmailable/issues/4))
-- Change the PHP version constraint to 7.2
+- Change the PHP version constraint to 7.1
 - Change the mailer services to inject logger channel directly instead
   of injecting the logger factory
 - Remove maintainers section & update security email address in README

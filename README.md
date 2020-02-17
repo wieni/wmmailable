@@ -14,7 +14,7 @@ wmmailable
 
 ## Installation
 
-This package requires PHP 7.2 and Drupal 8 or higher. It can be
+This package requires PHP 7.1 and Drupal 8 or higher. It can be
 installed using Composer:
 
 ```bash
