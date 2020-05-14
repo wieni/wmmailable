@@ -46,7 +46,7 @@ class QueuedMailer extends MailerBase
                 )
             );
 
-            return null;
+            return false;
         }
 
         $message = $this->mailManager->mail(

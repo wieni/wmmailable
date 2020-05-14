@@ -38,7 +38,7 @@ class Mailer extends MailerBase
                 )
             );
 
-            return null;
+            return false;
         }
 
         $message = $this->mailManager->mail(
@@ -49,6 +49,6 @@ class Mailer extends MailerBase
             compact('mailable')
         );
 
-        return $message['result'];
+        return !empty($message['result']);
     }
 }
