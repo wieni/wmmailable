@@ -69,6 +69,35 @@ class AccountConfirmationMail extends MailableBase
 }
 ```
 
+### Theming mails
+- Mail templates should be stored in a theme. This theme can be set in the 
+ `theme` value of the `wmmailable.settings` config, with the default theme 
+ as a fallback.
+
+- The location of the template within the theme is also configurable:
+    - the default location is in the `mail` subfolder, with the id with 
+     dashes instead of underscores as template name.
+    - a custom location can be set in the annotation, in the form of a 
+     path relative to the theme, with filename but without extension. 
+     Dots can be used as directory seperator.
+
+- The mail formatter determines how mails are rendered. Thanks to the 
+ [mailsystem](https://www.drupal.org/project/mailsystem) module, we can 
+ change the mail formatter separately from the mail sender. This module 
+ provides 3 formatters. The formatters as listed here are incremental: 
+ they all contain the features listed in the previous formatters.
+    - _Mailable - Plain_: the most basic mail formatter. Depending on the 
+     passed `Content-Type` header, this formatter will output HTML or plain 
+     text mails.
+    - _Mailable - With inline styles_: allows you to attach 
+     [asset libraries](https://www.drupal.org/node/2274843) to mails by 
+     passing them to `MailableInterface::addLibrary` or an array of asset 
+     libraries to `MailableInterface::setLibraries`.
+    - _Mailable - Foundation for Emails_: allows you to compose mails using 
+     the [Inky](https://get.foundation/emails.html) templating language. 
+     To use this formatter, you need to have the 
+     [`thampe/inky`](https://github.com/thampe/inky) package installed. 
+
 ### Sending mails
 - Mails are sent through the `Mailer` service
 - Two standard `Mailer` implementations are provided: `mailable.mailer.direct` and `mailable.mailer.queued`
@@ -112,12 +141,6 @@ class ContactForm extends FormBase
     }
 }
 ```
-
-- Mail templates should be stored in a theme. This theme can be set in the `theme` value of the `wmmailable.settings` config, with the default theme as a fallback.
-
-- The location of the template within the theme is also configurable:
-    - the default location is in the `mail` subfolder, with the id with dashes instead of underscores as template name.
-    - a custom location can be set in the annotation, in the form of a path relative to the theme, with filename but without extension. Dots can be used as directory seperator.
 
 ### Hooks and events
 - Two hooks are provided, `hook_mailable_alter` and `hook_mailable_{module}_{key}_alter`. These hooks are called after the `send` method is called on the mailable, but before the mail is sent.
