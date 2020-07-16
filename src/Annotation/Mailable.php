@@ -13,4 +13,9 @@ class Mailable extends Plugin
     protected $template;
     /** @var string */
     protected $module = 'wmmailable';
+
+    public function getId()
+    {
+        return parent::getId() ?? $this->getClass();
+    }
 }
