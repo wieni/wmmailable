@@ -16,6 +16,6 @@ class Mailable extends Plugin
 
     public function getId()
     {
-        return parent::getId() ?? $this->getClass();
+        return $this->definition['id'] ?? $this->getClass();
     }
 }
