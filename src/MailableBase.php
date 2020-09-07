@@ -4,7 +4,7 @@ namespace Drupal\wmmailable;
 
 use Drupal\Core\Plugin\PluginBase;
 
-abstract class MailableBase extends PluginBase implements MailableInterface
+abstract class MailableBase extends PluginBase implements BuildableMailableInterface
 {
     /** @var string */
     protected $langcode = '';

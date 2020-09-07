@@ -1,0 +1,7 @@
+wmmailable.sent_mails.list:
+    path: '/admin/reports/sent-mails'
+    defaults:
+        _entity_list: 'sent_mail'
+        _title: 'Sent mails'
+    requirements:
+        _permission: 'view sent mail log'

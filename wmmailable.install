@@ -1,0 +1,24 @@
+<?php
+
+use Drupal\Core\Entity\ContentEntityType;
+use Drupal\wmmailable\Entity\SentMail;
+
+/**
+ * Install sent_mail entity type
+ */
+function wmmailable_update_8001()
+{
+    $updateManager = \Drupal::entityDefinitionUpdateManager();
+    $entityType = new ContentEntityType([
+        'id' => 'sent_mail',
+        'label' => t('Sent mail'),
+        'base_table' => 'sent_mails',
+        'translatable' => false,
+        'entity_keys' => [
+            'id' => 'smid',
+        ],
+    ]);
+
+    $definitions = SentMail::baseFieldDefinitions($entityType);
+    $updateManager->installFieldableEntityType($entityType, $definitions);
+}

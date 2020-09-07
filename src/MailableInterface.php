@@ -2,16 +2,11 @@
 
 namespace Drupal\wmmailable;
 
-use Drupal\wmmailable\Exception\DiscardMailException;
-
 interface MailableInterface
 {
     public const RECEPIENT_TO = 'RECEPIENT_TO';
     public const RECEPIENT_CC = 'RECEPIENT_CC';
     public const RECEPIENT_BCC = 'RECEPIENT_BCC';
-
-    /** @throws DiscardMailException if the mail should be discarded */
-    public function build(): MailableInterface;
 
     public function getKey(): string;
 

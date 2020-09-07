@@ -31,6 +31,8 @@ function wmmailable_mail($key, &$message, $params)
  */
 function wmmailable_mail_alter(&$message)
 {
+    $message['created'] = \Drupal::time()->getRequestTime();
+
     if ($message['module'] === 'wmmailable') {
         return;
     }

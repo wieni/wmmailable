@@ -1,1 +1,2 @@
 mailer: wmmailable.mailer.direct
+sender: php_mail
