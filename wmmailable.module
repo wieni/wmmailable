@@ -136,3 +136,11 @@ function wmmailable_theme_set_variables(&$variables)
     $variables = array_merge($variables, $variables['_data']);
     unset($variables['_data']);
 }
+
+/**
+ * Implements hook_cron().
+ */
+function wmmailable_cron()
+{
+    \Drupal::service('wmmailable.sent_mail.cleaner')->clean();
+}

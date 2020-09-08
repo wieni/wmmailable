@@ -39,3 +39,10 @@ services:
     logger.channel.wmmailable:
         parent: logger.channel_base
         arguments: ['wmmailable']
+
+    wmmailable.sent_mail.cleaner:
+        class: Drupal\wmmailable\SentMailCleaner
+        arguments:
+            - '@entity_type.manager'
+            - '@config.factory'
+            - '@logger.channel.wmmailable'

@@ -4,7 +4,6 @@ namespace Drupal\wmmailable\Entity;
 
 use Drupal\Component\Render\MarkupInterface;
 use Drupal\Core\Entity\ContentEntityBase;
-use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Field\BaseFieldDefinition;
 use Drupal\wmmailable\MailableInterface;
