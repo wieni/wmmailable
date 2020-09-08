@@ -142,6 +142,12 @@ class ContactForm extends FormBase
 }
 ```
 
+### Logging sent mails
+- When enabled, this wil log all outgoing mails - also those that aren't composed through this module.
+- To enable, configure the [mailsystem](https://www.drupal.org/project/mailsystem) module to use _Mailable - Logger_ as 
+ the mail sender.
+- To view logged mails, go to `/admin/reports/sent-mails` or follow the menu link at _Reports_ > _Sent mails_.
+
 ### Hooks and events
 - Two hooks are provided, `hook_mailable_alter` and `hook_mailable_{module}_{key}_alter`. These hooks are called after the `send` method is called on the mailable, but before the mail is sent.
 
