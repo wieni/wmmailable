@@ -22,3 +22,19 @@ function wmmailable_update_8001()
     $definitions = SentMail::baseFieldDefinitions($entityType);
     $updateManager->installFieldableEntityType($entityType, $definitions);
 }
+
+/**
+ * Add new logging related settings
+ */
+function wmmailable_update_8002()
+{
+    $sender = \Drupal::configFactory()
+        ->get('mailsystem.settings')
+        ->get('defaults.sender') ?? 'php_mail';
+
+    \Drupal::configFactory()
+        ->getEditable('wmmailable.settings')
+        ->set('sender', $sender)
+        ->set('sent_mail_retention', 30 * 24 * 60 * 60)
+        ->save();
+}
