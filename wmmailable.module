@@ -102,7 +102,10 @@ function wmmailable_theme()
                 $langPath = $path;
             }
 
-            $data["wmmailable.$id.$langcode"] = [
+            $themeHook = sprintf('wmmailable.%s.%s', $id, $langcode);
+            $themeHook = str_replace('\\', '_', $themeHook);
+
+            $data[$themeHook] = [
                 'variables' => [
                     '_data' => [],
                 ],
