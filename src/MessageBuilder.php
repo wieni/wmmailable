@@ -39,8 +39,11 @@ class MessageBuilder
 
     protected function setBody(array &$message, MailableInterface $mailable): void
     {
+        $themeHook = sprintf('wmmailable.%s.%s', $mailable->getKey(), $mailable->getLangcode());
+        $themeHook = str_replace('\\', '_', $themeHook);
+
         $render = [
-            '#theme' => "wmmailable.{$mailable->getKey()}.{$mailable->getLangcode()}",
+            '#theme' => $themeHook,
             '#_data' => $mailable->getParameters(),
         ];
 

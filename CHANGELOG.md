@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.2.2] - 2021-10-18
+### Fixed
+- Fix error when trying to send a mailable with backslashes in its plugin ID
+
 ## [2.2.1] - 2021-07-09
 ### Fixed
 - Fix backslashes not being allowed in plugin ID's
