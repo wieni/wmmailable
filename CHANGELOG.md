@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.2.3] - 2021-10-19
+### Fixed
+- Fix content in mail templates not being rendered in the right language
+
 ## [2.2.2] - 2021-10-18
 ### Fixed
 - Fix error when trying to send a mailable with backslashes in its plugin ID

@@ -15,5 +15,12 @@ class WmmailableServiceProvider implements ServiceModifierInterface
         if (!empty($config['mailer']) && $container->hasDefinition($config['mailer'])) {
             $container->setDefinition('wmmailable.mailer', $container->getDefinition($config['mailer']));
         }
+
+        if (
+            !$container->has('language_negotiator')
+            || !$container->has('plugin.manager.language_negotiation_method')
+        ) {
+            $container->removeDefinition('wmmailable.language_negotiator');
+        }
     }
 }

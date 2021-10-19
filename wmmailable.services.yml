@@ -19,7 +19,12 @@ services:
         abstract: true
         class: Drupal\wmmailable\Mailer\MailerBase
         arguments:
+            - '@language_manager'
+            - '@string_translation'
             - '@plugin.manager.mailable'
+        calls:
+            - [setDefaultLanguageNegotiator, ['@?language_negotiator']]
+            - [setCustomLanguageNegotiator, ['@?wmmailable.language_negotiator']]
 
     wmmailable.mailer.direct:
         class: Drupal\wmmailable\Mailer\Mailer
@@ -46,3 +51,12 @@ services:
             - '@entity_type.manager'
             - '@config.factory'
             - '@logger.channel.wmmailable'
+
+    wmmailable.language_negotiator:
+        class: Drupal\wmmailable\Language\MailableLanguageNegotiator
+        arguments:
+            - '@language_manager'
+            - '@plugin.manager.language_negotiation_method'
+            - '@config.factory'
+            - '@settings'
+            - '@request_stack'

@@ -2,8 +2,10 @@
 
 namespace Drupal\wmmailable\Mailer;
 
+use Drupal\Core\Language\LanguageManagerInterface;
 use Drupal\Core\Logger\LoggerChannelInterface;
 use Drupal\Core\Mail\MailManager;
+use Drupal\Core\StringTranslation\TranslationInterface;
 use Drupal\wmmailable\Exception\DiscardMailException;
 use Drupal\wmmailable\MailableInterface;
 use Drupal\wmmailable\MailableManager;
@@ -16,17 +18,21 @@ class Mailer extends MailerBase
     protected $mailManager;
 
     public function __construct(
+        LanguageManagerInterface $languageManager,
+        TranslationInterface $translationManager,
         MailableManager $mailableManager,
         LoggerChannelInterface $logger,
         MailManager $mailManager
     ) {
-        parent::__construct($mailableManager);
+        parent::__construct($languageManager, $translationManager, $mailableManager);
         $this->logger = $logger;
         $this->mailManager = $mailManager;
     }
 
     public function send(MailableInterface $mailable): bool
     {
+        $this->overrideLanguage($mailable->getLangcode());
+
         try {
             $mailable->build();
         } catch (DiscardMailException $e) {
@@ -48,6 +54,8 @@ class Mailer extends MailerBase
             null,
             compact('mailable')
         );
+
+        $this->restoreLanguage();
 
         return !empty($message['result']);
     }
