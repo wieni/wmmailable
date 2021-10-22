@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.3.1] - 2021-10-22
+### Fixed
+- Fix the `lorenzo/pinky` integration
+
 ## [2.3.0] - 2021-10-21
 ### Fixed
 - Add support for the `lorenzo/pinky` package to be used in the Foundation for Emails formatter

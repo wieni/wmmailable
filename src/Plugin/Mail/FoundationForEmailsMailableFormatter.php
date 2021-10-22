@@ -34,7 +34,7 @@ class FoundationForEmailsMailableFormatter extends MailableFormatterBase
         }
 
         if (function_exists('\Pinky\transformString')) {
-            return \Pinky\transformString('<row>Contents</row>')->saveHTML();
+            return \Pinky\transformString($body)->saveHTML();
         }
 
         throw new \Exception('The hampe/inky or lorenzo/pinky package is required to use this formatter.');
