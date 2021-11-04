@@ -21,6 +21,9 @@ services:
         arguments:
             - '@language_manager'
             - '@string_translation'
+            - '@config.factory'
+            - '@theme.manager'
+            - '@theme.initialization'
             - '@plugin.manager.mailable'
         calls:
             - [setDefaultLanguageNegotiator, ['@?language_negotiator']]

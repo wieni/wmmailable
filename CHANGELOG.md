@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.3.2] - 2021-11-04
+### Fixed
+- Override the active theme when rendering mails. The `theme` value from settings was previously only used to look for
+  templates, but now the theme is actually being activated before rendering mails.
+
 ## [2.3.1] - 2021-10-22
 ### Fixed
 - Fix the `lorenzo/pinky` integration
