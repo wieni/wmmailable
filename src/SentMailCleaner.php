@@ -34,6 +34,7 @@ class SentMailCleaner
             ->getStorage('sent_mail');
         $ids = $storage->getQuery()
             ->condition('sent', time() - $this->getRetention(), '<')
+            ->accessCheck(false)
             ->execute();
 
         if (empty($ids)) {

@@ -2,8 +2,8 @@
 
 namespace Drupal\wmmailable\Event;
 
+use Drupal\Component\EventDispatcher\Event;
 use Drupal\wmmailable\MailableInterface;
-use Symfony\Component\EventDispatcher\Event;
 
 class MailableAlterEvent extends Event
 {

@@ -1,8 +1,7 @@
 name: wmmailable
 type: module
 description: A modern, plugin-based API for sending mails in Drupal 8.
-core: 8.x
 package: Wieni
 dependencies:
     - mailsystem
-core_version_requirement: ^8 || ^9
+core_version_requirement: ^9.3 || ^10
