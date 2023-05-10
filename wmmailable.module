@@ -69,8 +69,8 @@ function wmmailable_mail_alter(&$message)
 function wmmailable_wmmailable_alter(MailableInterface $mailable)
 {
     $dispatcher = \Drupal::getContainer()->get('event_dispatcher');
-    $dispatcher->dispatch(WmmailableEvents::MAILABLE_ALTER, new MailableAlterEvent($mailable));
-    $dispatcher->dispatch("wmmailable.mailable.{$mailable->getModule()}_{$mailable->getKey()}.alter", new MailableAlterEvent($mailable));
+    $dispatcher->dispatch(new MailableAlterEvent($mailable), WmmailableEvents::MAILABLE_ALTER);
+    $dispatcher->dispatch(new MailableAlterEvent($mailable), "wmmailable.mailable.{$mailable->getModule()}_{$mailable->getKey()}.alter");
 }
 
 /**
