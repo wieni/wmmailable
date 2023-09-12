@@ -69,8 +69,8 @@ function wmmailable_mail_alter(&$message)
 function wmmailable_wmmailable_alter(MailableInterface $mailable)
 {
     $dispatcher = \Drupal::getContainer()->get('event_dispatcher');
-    $dispatcher->dispatch(WmmailableEvents::MAILABLE_ALTER, new MailableAlterEvent($mailable));
-    $dispatcher->dispatch("wmmailable.mailable.{$mailable->getModule()}_{$mailable->getKey()}.alter", new MailableAlterEvent($mailable));
+    $dispatcher->dispatch(new MailableAlterEvent($mailable), WmmailableEvents::MAILABLE_ALTER);
+    $dispatcher->dispatch(new MailableAlterEvent($mailable), "wmmailable.mailable.{$mailable->getModule()}_{$mailable->getKey()}.alter");
 }
 
 /**
@@ -82,7 +82,7 @@ function wmmailable_theme()
     $themeName = \Drupal::config('wmmailable.settings')->get('theme')
         ?? \Drupal::config('system.theme')->get('default');
     $languages = \Drupal::getContainer()->get('language_manager')->getLanguages();
-    $dir = drupal_get_path('theme', $themeName) . DIRECTORY_SEPARATOR . 'templates';
+    $dir = \Drupal::getContainer()->get('extension.path.resolver')->getPath('theme', $themeName) . DIRECTORY_SEPARATOR . 'templates';
     $data = [];
 
     foreach ($manager->getDefinitions() as $id => $definition) {
@@ -118,11 +118,12 @@ function wmmailable_theme()
         }
     }
 
+    $path = \Drupal::getContainer()->get('extension.path.resolver')->getPath('module', 'wmmailable') . '/templates';
     $data['wmmailable'] = [
         'variables' => [
             'body' => [],
         ],
-        'path' => drupal_get_path('module', 'wmmailable') . '/templates',
+        'path' => $path,
         'template' => 'mailable',
     ];
 
