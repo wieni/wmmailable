@@ -11,7 +11,7 @@
     ],
     "require": {
         "php": ">=7.1.0",
-        "drupal/core": "^9.3 || ^10.0",
+        "drupal/core": "^9.3 || ^10.0 || ^11.0",
         "tijsverkoyen/css-to-inline-styles": "^2.2",
         "drupal/mailsystem": "^4.0"
     },

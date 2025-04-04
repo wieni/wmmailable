@@ -4,4 +4,4 @@ description: A modern, plugin-based API for sending mails in Drupal 8.
 package: Wieni
 dependencies:
     - mailsystem
-core_version_requirement: ^9.3 || ^10
+core_version_requirement: ^9.3 || ^10 || ^11
