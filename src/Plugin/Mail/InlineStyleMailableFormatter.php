@@ -4,7 +4,7 @@ namespace Drupal\wmmailable\Plugin\Mail;
 
 use Drupal\Core\Asset\AssetResolverInterface;
 use Drupal\Core\Asset\AttachedAssets;
-use Drupal\Core\File\FileSystem;
+use Drupal\Core\File\FileSystemInterface;
 use Drupal\Core\Mail\MailManagerInterface;
 use Drupal\wmmailable\MailableInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -23,13 +23,13 @@ class InlineStyleMailableFormatter extends MailableFormatterBase
 {
     /** @var AssetResolverInterface */
     protected $assetResolver;
-    /** @var FileSystem */
+    /** @var FileSystemInterface */
     protected $fileSystem;
 
     public function __construct(
         MailManagerInterface $mailManager,
         AssetResolverInterface $assetResolver,
-        FileSystem $fileSystem
+        FileSystemInterface $fileSystem
     ) {
         parent::__construct($mailManager);
         $this->assetResolver = $assetResolver;
