@@ -47,7 +47,7 @@ class MessageBuilder
             '#_data' => $mailable->getParameters(),
         ];
 
-        $message['body'] = [$this->renderer->renderPlain($render)];
+        $message['body'] = [$this->renderer->renderInIsolation($render)];
     }
 
     protected function setSubject(array &$message, MailableInterface $mailable): void

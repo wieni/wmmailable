@@ -84,6 +84,6 @@ class PlainMailableFormatter extends MailableFormatterBase
             '#body' => $message['body'],
         ];
 
-        $message['body'] = $this->renderer->renderPlain($render);
+        $message['body'] = $this->renderer->renderInIsolation($render);
     }
 }
