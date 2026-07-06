@@ -2,6 +2,7 @@
 
 namespace Drupal\wmmailable\Plugin\Mail;
 
+use Drupal\Component\Utility\DeprecationHelper;
 use Drupal\Core\Mail\MailManagerInterface;
 use Drupal\Core\Render\RendererInterface;
 use Drupal\Core\Site\Settings;
@@ -84,6 +85,11 @@ class PlainMailableFormatter extends MailableFormatterBase
             '#body' => $message['body'],
         ];
 
-        $message['body'] = $this->renderer->renderInIsolation($render);
+        $message['body'] = DeprecationHelper::backwardsCompatibleCall(
+            \Drupal::VERSION,
+            '10.3',
+            fn () => $this->renderer->renderInIsolation($render),
+            fn () => $this->renderer->renderPlain($render),
+        );
     }
 }
