@@ -10,8 +10,8 @@
         }
     ],
     "require": {
-        "php": ">=7.1.0",
-        "drupal/core": "^10.1 || ^11.0",
+        "php": ">=8.2",
+        "drupal/core": "^11.4 || ^12",
         "tijsverkoyen/css-to-inline-styles": "^2.2",
         "drupal/mailsystem": "^4.0"
     },
