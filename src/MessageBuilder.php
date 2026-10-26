@@ -2,6 +2,7 @@
 
 namespace Drupal\wmmailable;
 
+use Drupal\Component\Utility\DeprecationHelper;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Language\LanguageManagerInterface;
 use Drupal\Core\Render\RendererInterface;
@@ -47,7 +48,12 @@ class MessageBuilder
             '#_data' => $mailable->getParameters(),
         ];
 
-        $message['body'] = [$this->renderer->renderPlain($render)];
+        $message['body'] = [DeprecationHelper::backwardsCompatibleCall(
+            \Drupal::VERSION,
+            '10.3',
+            fn () => $this->renderer->renderInIsolation($render),
+            fn () => $this->renderer->renderPlain($render),
+        )];
     }
 
     protected function setSubject(array &$message, MailableInterface $mailable): void
