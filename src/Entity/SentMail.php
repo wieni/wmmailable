@@ -3,9 +3,12 @@
 namespace Drupal\wmmailable\Entity;
 
 use Drupal\Component\Render\MarkupInterface;
+use Drupal\Core\Entity\Attribute\ContentEntityType;
 use Drupal\Core\Entity\ContentEntityBase;
 use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Field\BaseFieldDefinition;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
+use Drupal\wmmailable\ListBuilder\SentMailListBuilder;
 use Drupal\wmmailable\MailableInterface;
 
 /**
@@ -24,6 +27,18 @@ use Drupal\wmmailable\MailableInterface;
  *
  * @method static SentMail create(array $values = [])
  */
+#[ContentEntityType(
+    id: 'sent_mail',
+    label: new TranslatableMarkup('Sent mail'),
+    entity_keys: [
+        'id' => 'smid',
+    ],
+    handlers: [
+        'list_builder' => SentMailListBuilder::class,
+    ],
+    base_table: 'sent_mails',
+    translatable: false,
+)]
 class SentMail extends ContentEntityBase implements MailableInterface
 {
     public static function baseFieldDefinitions(EntityTypeInterface $entityType)

@@ -3,9 +3,11 @@
 namespace Drupal\wmmailable\Plugin\Mail;
 
 use Drupal\Component\Utility\DeprecationHelper;
+use Drupal\Core\Mail\Attribute\Mail;
 use Drupal\Core\Mail\MailManagerInterface;
 use Drupal\Core\Render\RendererInterface;
 use Drupal\Core\Site\Settings;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -17,6 +19,11 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *     description = @Translation("Basic mail formatter.")
  * )
  */
+#[Mail(
+    id: 'mailable_plain',
+    label: new TranslatableMarkup('Mailable - Plain'),
+    description: new TranslatableMarkup('Basic mail formatter.'),
+)]
 class PlainMailableFormatter extends MailableFormatterBase
 {
     /** @var RendererInterface */

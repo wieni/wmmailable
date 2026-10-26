@@ -2,6 +2,9 @@
 
 namespace Drupal\wmmailable\Plugin\Mail;
 
+use Drupal\Core\Mail\Attribute\Mail;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
+
 /**
  * Provides a plugin to format mails
  *
@@ -11,6 +14,11 @@ namespace Drupal\wmmailable\Plugin\Mail;
  *     description = @Translation("Mail formatter which transpiles Foundation for Emails markup to regular HTML.")
  * )
  */
+#[Mail(
+    id: 'mailable_foundation_for_emails',
+    label: new TranslatableMarkup('Mailable - Foundation for Emails'),
+    description: new TranslatableMarkup('Mail formatter which transpiles Foundation for Emails markup to regular HTML.'),
+)]
 class FoundationForEmailsMailableFormatter extends MailableFormatterBase
 {
     public function format(array $message)

@@ -5,8 +5,11 @@ namespace Drupal\wmmailable\Plugin\QueueWorker;
 use Drupal\Component\Render\PlainTextOutput;
 use Drupal\Core\Mail\MailManagerInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\Core\Queue\Attribute\QueueWorker;
 use Drupal\Core\Queue\QueueWorkerBase;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\wmmailable\LanguageOverrideTrait;
+use Drupal\wmmailable\Mailer\QueuedMailer;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -16,6 +19,11 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *     cron = {"time" : 30}
  * )
  */
+#[QueueWorker(
+    id: QueuedMailer::QUEUE_ID,
+    title: new TranslatableMarkup('Mail queue'),
+    cron: ['time' => 30],
+)]
 class MailQueueWorker extends QueueWorkerBase implements ContainerFactoryPluginInterface
 {
     use LanguageOverrideTrait;

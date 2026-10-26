@@ -5,7 +5,9 @@ namespace Drupal\wmmailable\Plugin\Mail;
 use Drupal\Core\Asset\AssetResolverInterface;
 use Drupal\Core\Asset\AttachedAssets;
 use Drupal\Core\File\FileSystemInterface;
+use Drupal\Core\Mail\Attribute\Mail;
 use Drupal\Core\Mail\MailManagerInterface;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\wmmailable\MailableInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use TijsVerkoyen\CssToInlineStyles\CssToInlineStyles;
@@ -19,6 +21,11 @@ use TijsVerkoyen\CssToInlineStyles\CssToInlineStyles;
  *     description = @Translation("Mail formatter which converts attached css to inline styles.")
  * )
  */
+#[Mail(
+    id: 'mailable_inline_style',
+    label: new TranslatableMarkup('Mailable - With inline styles'),
+    description: new TranslatableMarkup('Mail formatter which converts attached css to inline styles.'),
+)]
 class InlineStyleMailableFormatter extends MailableFormatterBase
 {
     /** @var AssetResolverInterface */

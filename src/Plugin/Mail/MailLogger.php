@@ -3,9 +3,11 @@
 namespace Drupal\wmmailable\Plugin\Mail;
 
 use Drupal\Core\Config\ConfigFactoryInterface;
+use Drupal\Core\Mail\Attribute\Mail;
 use Drupal\Core\Mail\MailInterface;
 use Drupal\Core\Mail\MailManagerInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\wmmailable\Entity\SentMail;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -18,6 +20,11 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *     description = @Translation("Mail formatter which logs mails after sending them.")
  * )
  */
+#[Mail(
+    id: 'mailable_log',
+    label: new TranslatableMarkup('Mailable - Logger'),
+    description: new TranslatableMarkup('Mail formatter which logs mails after sending them.'),
+)]
 class MailLogger implements MailInterface, ContainerFactoryPluginInterface
 {
     /** @var ConfigFactoryInterface */
