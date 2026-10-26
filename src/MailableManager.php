@@ -2,10 +2,12 @@
 
 namespace Drupal\wmmailable;
 
+use Drupal\Component\Plugin\Attribute\Plugin;
 use Drupal\Core\Cache\CacheBackendInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Plugin\DefaultPluginManager;
 use Drupal\wmmailable\Annotation\Mailable;
+use Drupal\wmmailable\Attribute\Mailable as MailableAttribute;
 
 class MailableManager extends DefaultPluginManager
 {
@@ -14,13 +16,26 @@ class MailableManager extends DefaultPluginManager
         CacheBackendInterface $cacheBackend,
         ModuleHandlerInterface $moduleHandler
     ) {
-        parent::__construct(
-            'Mail',
-            $namespaces,
-            $moduleHandler,
-            MailableInterface::class,
-            Mailable::class
-        );
+        // Attribute discovery (and this constructor signature) only exists
+        // since Drupal 10.2.
+        if (class_exists(Plugin::class)) {
+            parent::__construct(
+                'Mail',
+                $namespaces,
+                $moduleHandler,
+                MailableInterface::class,
+                MailableAttribute::class,
+                Mailable::class
+            );
+        } else {
+            parent::__construct(
+                'Mail',
+                $namespaces,
+                $moduleHandler,
+                MailableInterface::class,
+                Mailable::class
+            );
+        }
         $this->alterInfo('wmmailable_info');
         $this->setCacheBackend($cacheBackend, 'wmmailable_info_plugins');
     }
