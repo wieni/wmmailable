@@ -4,7 +4,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [2.6.0] - 2026-10-26
+### Added
+- Drupal 12 support.
+- A `#[Mailable]` attribute. The mailable plugin manager supports attribute discovery, which Drupal 12 requires.
+  `@Mailable` annotations keep working; core reports them as deprecated for Drupal 13.
+- Attributes next to the annotations of the mail plugins, the mail queue worker and the `sent_mail` entity type.
+
+### Fixed
+- Render mails with `renderInIsolation()` instead of `renderPlain()`, which is removed in Drupal 12.
+
+### Removed
+- Support for Drupal before 11.4 and PHP before 8.2. The module now requires Drupal `^11.4 || ^12` and PHP 8.2 or
+  higher.
 
 ## [2.3.2] - 2021-11-04
 ### Fixed
